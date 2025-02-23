@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import Images from './Images/logo3.png';
 import { useNavigate } from 'react-router-dom';
 
 const Studio = ({ city, title }) => {
@@ -49,9 +49,7 @@ const Studio = ({ city, title }) => {
                                     <div key={item._id} className="card bg-slate-700 w-[200px]  shadow-xl ">
                                         <figure>
                                             <img
-                                            //    src={`./../../../pbackend/${item.imageUrl}`} 
-                                            
-                                            src={`http://localhost:8080${item.imageUrl}`}
+                                                src={`http://localhost:8080${item.imageUrl}`}
                                                 alt={item.name}
                                                 className="h-[150px]"
                                             />

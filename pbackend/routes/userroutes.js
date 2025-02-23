@@ -1,14 +1,8 @@
 import express from 'express';
 import multer from "multer";
 import path from "path";
-
-import { 
-    user, create, fetchstudio, createstudio, fetchcity, 
-    fetchbooking, updateStudio, deleteStudio, createbooking, fetchstudio1 
-} from "../controller/usercontroller.js";
-
-const route = express.Router();
-
+import {fetchuser,user,loginstudio,create,fetchstudio,createstudio,fetchcity,fetchbooking,updateStudio,deleteStudio,createbooking,fetchstudio1} from "../controller/usercontroller.js";
+const route=express.Router();
 // ✅ Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,17 +14,17 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-// ✅ Define routes AFTER multer is initialized
-route.get("/user", user);
-route.post("/create", create);
-route.post("/createstudio", upload.single("file"), createstudio); // ✅ Now 'upload' is defined before use
-route.get("/fetchstudio", fetchstudio);
-route.get("/fetchstudio1/:id", fetchstudio1);
-route.get("/fetchcity", fetchcity);
-route.post("/createbooking", createbooking);
-route.get("/fetchbooking", fetchbooking);
-route.put("/updatestudio/:id", updateStudio);
-route.delete("/deletestudio/:id", deleteStudio);
+route.post("/user",user);
+route.post("/loginstudio",loginstudio);
+route.post("/create",create);
+route.post("/createstudio",upload.single("file"), createstudio);
+route.get("/fetchstudio",fetchstudio);
+route.get("/fetchstudio1/:id",fetchstudio1);
+route.get("/fetchcity",fetchcity);
+route.get("/fetchuser/:id",fetchuser);
+route.post("/createbooking",createbooking);
+route.get("/fetchbooking",fetchbooking);
+route.put("/updatestudio/:id",updateStudio);
+route.delete("/deletestudio/:id",deleteStudio);
 
 export default route;

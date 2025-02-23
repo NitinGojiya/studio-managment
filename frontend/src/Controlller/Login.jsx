@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({login,setLogin}) => {
-  
+const Login = ({login,setLogin,user,setUser}) => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userType, setUserType] = useState('customer'); 
     const [error, setError] = useState('');
-
+  
+   
     
-    const handleSubmit = (e) => {
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         
@@ -36,11 +40,80 @@ const Login = ({login,setLogin}) => {
         console.log('Password:', password);
         console.log('User Type:', userType);
         const postData={
-            "userId":email,
+            "email":email,
             "password":password
         }
-        console.log(postData);
-       setLogin(true)
+        if(userType.match("customer"))
+        {
+            try {
+                const response = await fetch('http://localhost:8080/api/studio/user', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(postData),
+                });
+            
+                const data = await response.json(); // Parse the response JSON
+            
+                if (response.ok) {
+                    localStorage.setItem("login", "true");
+                    // localStorage.setItem("user",data._id);
+                    localStorage.setItem("user",data.user._id); // Cookie expires in 7 days
+                    setLogin("true");
+                    setUser(data.user._id)
+                    // console.log(data)
+                    // Close modal properly (if using React, consider useRef instead)
+                    document.getElementById('my_modal_1')?.close();
+                    
+                } else {
+                    setError(data.message || 'User not Found');
+                    // alert(data.message || 'User not found'); // Display server error message if available
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Something went wrong. Please try again.');
+            }
+        }
+       if(userType.match("studioOwner"))
+       {
+        try {
+            const response = await fetch('http://localhost:8080/api/studio/loginstudio', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+        
+            const data = await response.json(); // Parse the response JSON
+        
+            if (response.ok) {
+                // localStorage.setItem("login", "true");
+                // setLogin("true");
+               // navigate('/dashboard', { state: { message: login } });
+                // Close modal properly (if using React, consider useRef instead)
+                localStorage.setItem("admin","true")
+                
+                
+                const userId = data.user._id // Example ID
+                window.open(`http://localhost:5173/?id=${userId}`, "_blank");
+                document.getElementById('my_modal_1')?.close();
+            } else {
+                setError(data.message || 'User not Found');
+                // alert(data.message || 'User not found'); // Display server error message if available
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert('Something went wrong. Please try again.');
+        }
+       }
+        
+        
+        // console.log(postData);
+    //    localStorage.setItem("login","true")
+    //    setLogin("true")
+    //    document.getElementById('my_modal_1').close()
         //submit form
         
     };

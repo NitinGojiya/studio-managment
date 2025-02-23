@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Images from './Images/logo3.png';
-const Website = () => {
+import Image from './Image';
+import Video from './Video';
+import Booking from './Booking';
+const Website = ({userl}) => {
     const [studio, setStudio] = useState();
     const [loding, setLoding] = useState(true);
     setTimeout(() => {
@@ -27,8 +30,8 @@ const Website = () => {
     return (
         <>
 
-            <div className='flex justify-center bg-slate-900 p-10'>
-                <div className=" grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className=''>
+                <div className=" ">
 
                     {
                         loding ?
@@ -45,22 +48,45 @@ const Website = () => {
                             (
 
 
-                                
-                                    <div className="hero bg-base-200 min-h-screen">
-                                        <div className="hero-content flex-col lg:flex-row-reverse">
-                                            <img
-                                                src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
-                                                className="max-w-sm rounded-lg shadow-2xl" />
-                                            <div>
-                                                <h1 className="md:text-5xl font-bold">{studio.name}</h1>
-                                                <p className="py-6">
-                                                  { studio.address}
-                                                </p>
-                                                <button className="btn btn-primary">Get Started</button>
-                                            </div>
+
+                                <div className="hero bg-base-200 min-h-screen flex flex-col">
+                                    <div className="hero-content flex-col lg:flex-row-reverse">
+                                        <img height="200px" width="200px"
+                                            src={`http://localhost:8080${studio.imageUrl}`}
+                                            className="max-w-sm rounded-lg shadow-2xl" />
+                                        <div>
+                                            <h1 className="md:text-5xl font-bold">{studio.name}</h1>
+                                            <p className="py-6">
+                                                {studio.address}
+                                            </p>
+                                            <button className="btn btn-outline btn-accent" onClick={()=>document.getElementById('my_modal_5').showModal()}>Book Now</button>
+                                            <Booking userl={userl} name={studio.name}  email={studio.email} id={studio._id} smobile={studio.mobile}/>
+                                        </div>
+
+                                    </div>
+                                  {/* imagesectin */}
+                                    <div className='mt-10'>
+                                       <div className=''>
+                                        <p className='text-3xl font-bold'>Photos Demo</p>
+                                        </div>
+                                        <div>
+                                            <Image/>
                                         </div>
                                     </div>
-                               
+                                     {/* video Section End */}
+                                            {/* imagesectin */}
+                                    <div className='mt-10'>
+                                       <div className=''>
+                                        <p className='text-3xl font-bold'>Video's Demo</p>
+                                        </div>
+                                        <div>
+                                           <Video/>
+                                        </div>
+                                    </div>
+                                     {/* video Section End */}
+                                  
+                                </div>
+
 
 
 

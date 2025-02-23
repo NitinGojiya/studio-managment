@@ -40,7 +40,7 @@ const Studiopage = () => {
             <div>
                 <div className='flex justify-end items-end ml-10'>
                     <select className="select select-accent w-full max-w-xs" onChange={handelchange}>
-                        <option disabled selected>Select Your City</option>
+                        <option disabled  >Select Your City</option>
                         {
                         
                     loding ?
@@ -56,7 +56,14 @@ const Studiopage = () => {
                     :
                     (
                         list.map((item) => (
-                            <option>{item.city}</option>
+                            
+                                item.name ===localStorage.getItem("city")
+                                ?
+                                <option selected >{item.city}</option>
+                                :
+                                <option  >{item.city}</option>
+                            
+                           
                         ))
                     )
                     }
